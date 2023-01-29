@@ -18,7 +18,7 @@ Here is a brief overview of the scripts included in this collection:
 
 kill_open_files.sh: Kill all processes of deleted files that are still open
 
-script2.sh: Description of script 2
+add_local_user.sh: This script adds users to the same linux system as the script is executed on.
 
 script3.sh: Description of script 3
 
