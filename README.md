@@ -1,6 +1,5 @@
-<b><i>Bash Script Collection</i></b>
+## Bash Script Collection 
 <br>
-
 Welcome to my personal collection of Bash scripts! This repository contains a variety of scripts that I have created for various purposes, such as automating tasks, managing systems, and more.
 
 Getting Started
@@ -15,11 +14,11 @@ chmod +x path/to/kill_open_files.sh
 
 Here is a brief overview of the scripts included in this collection:
 </br>
-kill_open_files.sh: <i>Kill all processes of deleted files that are still open </i>
+kill_open_files.sh: *Kill all processes of deleted files that are still open*
 </br>
-add_local_user.sh: <i>This script adds users to the same linux system as the script is executed on. </i>
+add_local_user.sh: *This script adds users to the same linux system as the script is executed on.* 
 </br>
-script3.sh: <i> Description of script 3 </i>
+script3.sh: *Description of script 3*
 
 Contributing
 If you have any suggestions for improvements or new scripts to add to this collection, please feel free to open a pull request. I am always looking for ways to make these scripts more useful and efficient.
