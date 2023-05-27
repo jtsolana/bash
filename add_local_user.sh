@@ -1,42 +1,32 @@
 #!/bin/bash
-# This script adds users to the same linux system as the script is executed on.
-# The username, password, and host for the account will be displayed after a sucessful run. 
 
-# Make sure the script is being executed with superuser privileges.
+# Script: create_user.sh
+# This script allows the root user to create a new user account on a Linux system.
+# It prompts for a new username and password, checks if the user already exists,
+# creates the user, sets the password, and displays the new username, password, and hostname.
+
 if [[ $EUID -ne 0 ]]; then
-   echo "This script must be run as root" 
+   echo "This script must be run as root"
    exit 1
 fi
 
-# Get the username (login).
-read -p 'Enter the username to create: ' username
+# Get user input for new username and password
+read -p "Enter a username for the new user: " newusername
 
 # check if user already exists
-if id "$username" >/dev/null 2>&1; then
-    echo "user $username already exists"
+if id "$newusername" >/dev/null 2>&1; then
+    echo "User $newusername already exists"
     exit 1
 fi
 
-# Get the real name (contents for the description field).
-read -p 'Enter the fullname of the person who this account is for: ' fullname
+read -sp "Enter a password for the new user: " newpassword
 
-# Get the password.
-read -sp 'Enter the password to use for the account: ' password
-
-# Create the user account with the password.
-useradd -c "${fullname}" -m ${username}
-echo "$username:$password" | chpasswd
-
-# Force password change on first login.
-passwd -e ${username}
-
-# Display the username, password, and the host where the user was created.
-echo "username:"
-echo ${username}
-
-echo "password:"
-echo ${password}
-
-echo "host:"
-echo $(hostname)
-
+# Create the new user and set the password
+if useradd -m $newusername; then
+  echo "$newusername:$newpassword" | chpasswd
+  # Display the new username, password, and hostname
+  echo "New user $newusername with password $newpassword has been created on $(hostname)"
+else
+  echo "Failed to create user $newusername"
+  exit 1
+fi
