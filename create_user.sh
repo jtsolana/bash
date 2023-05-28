@@ -5,15 +5,20 @@
 # It prompts for a new username and password, checks if the user already exists,
 # Creates the user, sets the password, and displays the new username, password, and hostname.
 
+# Function to display error messages
+print_error() {
+  echo "Error: $1" >&2
+}
+
 # Check if the script is executed with superuser (root) privileges
 if [[ "$(id -u)" -ne 0 ]]; then
-  echo "This script must be executed with superuser privileges." >&2
+  print_error "This script must be executed with superuser privileges."
   exit 1
 fi
 
 # Check if the username is provided as the first argument
 if [[ -z "$1" ]]; then
-  echo "Usage: $0 <username> [comment]" >&2
+  print_error "Usage: $0 <username> [comment]"
   exit 1
 fi
 
@@ -26,12 +31,15 @@ password=$(openssl rand -base64 12)
 
 # Create the new user account
 if ! sudo useradd -m -c "$comment" "$username" &>/dev/null; then
-  echo "Failed to create the user account. User $username already exists" >&2
+  print_error "Failed to create the user account."
   exit 1
 fi
 
 # Set the generated password for the new user account
-echo "$username:$password" | sudo chpasswd
+echo "$username:$password" | sudo chpasswd &>/dev/null
+
+# Enforce password change on first login
+passwd -e ${username}
 
 # Display the account information
 echo "User account successfully created:"
