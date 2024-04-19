@@ -21,7 +21,7 @@ db_name="db_"$var
 db_user="user_"$var
 db_user_pass=$(generate_password)
 
-# setup the WordPress Database
+# setup wordpress database
 echo "Creating new MySQL database..."
 mysql -uroot -e "CREATE DATABASE ${db_name} /*\!40100 DEFAULT CHARACTER SET utf8 */;"
 echo "Database successfully created!"
@@ -39,7 +39,7 @@ echo "Downloading wordpress.."
 sudo -u www-data mkdir $project && cd $project 
 sudo -u www-data mkdir "public_html" && cd "public_html" && sudo -u www-data wp core download
 
-# connect WordPress to the Database
+# connect wordpress to the database
 sudo -u www-data wp config create --dbname=${db_name} --dbuser=${db_user} --dbpass=${db_user_pass}
 
 # setup nginx site-config
@@ -70,10 +70,10 @@ sudo ln -s /etc/nginx/sites-available/$project.conf /etc/nginx/sites-enabled
 nginx -t
 systemctl restart nginx
 
-# setup wordpress
+# install wordpress using wp-cli
 wp_user="admin"
 wp_user_pass=$(generate_password)
-sudo -u www-data wp core install --url=$project --title=$project --admin_user=$wp_user --admin_password=$wp_user_pass --admin_email="iamjessonle@gmail.com"
+sudo -u www-data wp core install --url=$project --title=$project --admin_user=$wp_user --admin_password=$wp_user_pass --admin_email="admin@sample.com"
 
 echo "installing themes..."
 sudo -u www-data wp theme install twentyseventeen --activate
@@ -81,7 +81,9 @@ sudo -u www-data wp theme install twentyseventeen --activate
 echo "installing plugins..."
 sudo -u www-data wp plugin install wordpress-seo --activate
 
-certbot run -n --nginx --agree-tos -d $project,www.$project  -m  jessonle@updigitalgroup.com  --redirect
+# setup ssl certificate
+certbot run -n --nginx --agree-tos -d $project,www.$project  -m  iamjessonle@gmail.com  --redirect
+
 
 echo "Database Name: $db_name"
 echo "Database User: $db_user"
