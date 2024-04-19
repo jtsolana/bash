@@ -15,6 +15,7 @@ generate_password() {
     chars='!@#$%^&*()_+{}[]<>?abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
     #generate a password of length 12
     password=$(tr -dc "$chars" < /dev/urandom | fold -w 12 | head -n 1)
+    echo "$password"
 }
 
 db_name="db_"$var
