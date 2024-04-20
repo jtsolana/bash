@@ -10,7 +10,7 @@ db_user="user_"$var
 
 #removing WordPress Database
 echo "Deleting new MySQL database..."
-mysql -uroot -e "DROP DATABASE ${db_name};"
+sudo mysql -uroot -e "DROP DATABASE ${db_name};"
 echo "Database successfully deleted!"
 echo ""
 echo "Deleting user..."
@@ -24,4 +24,8 @@ echo ""
 rm /etc/nginx/sites-available/$project.conf
 rm /etc/nginx/sites-enabled/$project.conf
 
-echo "nginx conf deleted"
+echo "nginx configuration file deleted"
+
+nginx -t
+systemctl reload nginx
+
